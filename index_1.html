@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fight Forward — A School Fitness Program Kids Actually Love</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:ital,wght@0,400;0,500;0,600;1,400;1,600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange: #FE5E09;
+      --black: #111111;
+      --white: #ffffff;
+      --grey: #f5f5f5;
+      --mid: #e8e8e8;
+      --text: #333333;
+      --muted: #777777;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      color: var(--black);
+      background: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px; height: 70px;
+      background: rgba(17,17,17,0.97);
+      backdrop-filter: blur(8px);
+    }
+    nav img { height: 38px; }
+    nav ul { list-style: none; display: flex; gap: 32px; }
+    nav ul a {
+      color: rgba(255,255,255,0.8); text-decoration: none;
+      font-size: 14px; font-weight: 500; letter-spacing: 0.04em;
+      text-transform: uppercase; transition: color 0.2s;
+    }
+    nav ul a:hover { color: var(--orange); }
+    nav .nav-cta {
+      background: var(--orange); color: white;
+      padding: 10px 22px; border-radius: 4px;
+      font-size: 13px; font-weight: 700; letter-spacing: 0.05em;
+      text-transform: uppercase; text-decoration: none;
+      transition: background 0.2s;
+    }
+    nav .nav-cta:hover { background: #e05000; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      background: var(--black);
+      display: flex; align-items: center;
+      padding: 100px 40px 60px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(254,94,9,0.12) 0%, transparent 60%);
+    }
+    .hero-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: center; width: 100%;
+      position: relative; z-index: 1;
+    }
+    .hero-text h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(48px, 6vw, 80px);
+      font-weight: 900; line-height: 1;
+      color: var(--white); text-transform: uppercase;
+      letter-spacing: -0.01em; margin-bottom: 8px;
+    }
+    .hero-text h1 em { font-style: italic; color: var(--orange); }
+    .hero-text p {
+      color: rgba(255,255,255,0.7);
+      font-size: 18px; line-height: 1.6;
+      margin-bottom: 32px; max-width: 440px;
+    }
+    .hero-cta {
+      display: inline-block;
+      background: var(--orange); color: white;
+      padding: 16px 36px; border-radius: 4px;
+      font-size: 16px; font-weight: 700;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      text-decoration: none; transition: background 0.2s, transform 0.2s;
+    }
+    .hero-cta:hover { background: #e05000; transform: translateY(-1px); }
+
+    /* CAROUSEL */
+    .carousel {
+      position: relative; border-radius: 12px; overflow: hidden;
+      aspect-ratio: 4/3; background: #222;
+    }
+    .cslide {
+      position: absolute; inset: 0;
+      opacity: 0; transition: opacity 0.6s ease;
+    }
+    .cslide.active { opacity: 1; }
+    .cslide img { width: 100%; height: 100%; object-fit: cover; }
+    .carousel-btn {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(0,0,0,0.5); color: white; border: none;
+      width: 40px; height: 40px; border-radius: 50%;
+      font-size: 18px; cursor: pointer; z-index: 2;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .carousel-btn:hover { background: var(--orange); }
+    .carousel-btn.prev { left: 12px; }
+    .carousel-btn.next { right: 12px; }
+    .carousel-dots {
+      position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 6px; z-index: 2;
+    }
+    .cdot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,255,255,0.4); cursor: pointer;
+      transition: background 0.2s;
+    }
+    .cdot.active { background: var(--orange); }
+
+    /* SECTIONS */
+    section { padding: 80px 40px; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-size: 12px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--orange);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(36px, 4vw, 52px);
+      font-weight: 800; text-transform: uppercase;
+      line-height: 1.05; color: var(--black); margin-bottom: 48px;
+    }
+    .section-title em { font-style: italic; color: var(--orange); }
+
+    /* PROGRAM */
+    #program { background: var(--white); }
+    .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    .pillar {
+      padding: 36px 32px; background: var(--grey); border-radius: 8px;
+      border-top: 4px solid var(--orange);
+    }
+    .pillar-header {
+      display: flex; align-items: center; gap: 14px; margin-bottom: 16px;
+    }
+    .pillar-icon { font-size: 32px; line-height: 1; flex-shrink: 0; }
+    .pillar h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 24px; font-weight: 800; text-transform: uppercase;
+      color: var(--black); margin: 0;
+    }
+    .pillar h3 em { font-style: italic; color: var(--orange); }
+    .pillar p { font-size: 15px; line-height: 1.65; color: var(--text); }
+
+    /* TESTIMONIALS */
+    #testimonials { background: var(--black); }
+    #testimonials .section-title { color: var(--white); }
+    .tcarousel { position: relative; overflow: hidden; }
+    .tslides { display: flex; transition: transform 0.5s ease; }
+    .tslide { min-width: 100%; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .tcard {
+      background: rgba(255,255,255,0.06); border-radius: 8px;
+      padding: 28px; border: 1px solid rgba(255,255,255,0.08);
+    }
+    .tcard p {
+      font-size: 15px; line-height: 1.7; color: rgba(255,255,255,0.85);
+      font-style: italic; margin-bottom: 20px;
+    }
+    .tcard-author { display: flex; align-items: center; gap: 12px; }
+    .tcard-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--orange);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 13px; color: white; flex-shrink: 0;
+    }
+    .tcard-name { font-weight: 600; font-size: 14px; color: white; }
+    .tcard-role { font-size: 13px; color: rgba(255,255,255,0.5); }
+    .tcarousel-nav {
+      display: flex; justify-content: center; align-items: center;
+      gap: 16px; margin-top: 32px;
+    }
+    .tcarousel-btn {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(255,255,255,0.1); color: white; border: none;
+      cursor: pointer; font-size: 16px;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .tcarousel-btn:hover { background: var(--orange); }
+    .tcarousel-dots { display: flex; gap: 8px; align-items: center; }
+    .tdot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,255,255,0.25); cursor: pointer;
+      transition: background 0.2s;
+    }
+    .tdot.active { background: var(--orange); }
+
+    /* HOW IT WORKS */
+    #how { background: var(--grey); }
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    .step { text-align: center; padding: 40px 24px; }
+    .step-num {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: var(--orange); color: white;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 28px; font-weight: 900;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+    }
+    .step h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 22px; font-weight: 800; text-transform: uppercase;
+      margin-bottom: 12px; color: var(--black);
+    }
+    .step p { font-size: 15px; line-height: 1.65; color: var(--text); }
+    .step strong { color: var(--orange); }
+
+    /* ENQUIRE */
+    #enquire { background: var(--black); }
+    #enquire .section-label { color: var(--orange); }
+    .enquire-grid {
+      display: grid; grid-template-columns: 1fr 1.3fr; gap: 64px; align-items: start;
+    }
+    .enquire-info h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(32px, 3.5vw, 48px);
+      font-weight: 900; text-transform: uppercase; line-height: 1.05;
+      margin-bottom: 16px; color: var(--white);
+    }
+    .enquire-info h2 em { font-style: italic; color: var(--orange); }
+    .enquire-info p {
+      font-size: 16px; line-height: 1.65; color: rgba(255,255,255,0.7); margin-bottom: 32px;
+    }
+    .contact-item {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 12px; font-size: 15px; color: rgba(255,255,255,0.7);
+    }
+    .contact-item a { color: var(--orange); text-decoration: none; }
+    .contact-item a:hover { text-decoration: underline; }
+    .contact-icon {
+      width: 36px; height: 36px; border-radius: 6px;
+      background: rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center;
+      font-size: 16px; flex-shrink: 0;
+    }
+    .enquire-form h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 28px; font-weight: 800; text-transform: uppercase;
+      margin-bottom: 24px; color: var(--white);
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label {
+      display: block; font-size: 13px; font-weight: 600;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      color: rgba(255,255,255,0.7); margin-bottom: 6px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%; padding: 12px 14px;
+      border: 2px solid rgba(255,255,255,0.12); border-radius: 6px;
+      font-family: 'Barlow', sans-serif; font-size: 15px;
+      color: var(--black); background: var(--white);
+      transition: border-color 0.2s; outline: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--orange); }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .honey { display: none !important; }
+    .form-submit {
+      width: 100%; padding: 16px;
+      background: var(--orange); color: white; border: none;
+      border-radius: 6px; font-family: 'Barlow', sans-serif;
+      font-size: 16px; font-weight: 700; letter-spacing: 0.04em;
+      text-transform: uppercase; cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .form-submit:hover { background: #e05000; transform: translateY(-1px); }
+    .form-note { font-size: 13px; color: rgba(255,255,255,0.4); text-align: center; margin-top: 10px; }
+    .form-success {
+      display: none; text-align: center; padding: 40px 20px;
+      background: #f0faf0; border-radius: 8px; border: 2px solid #4caf50;
+    }
+    .form-success .check { font-size: 40px; margin-bottom: 12px; }
+    .form-success h4 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 24px; font-weight: 800; text-transform: uppercase;
+      color: #2e7d32; margin-bottom: 8px;
+    }
+    .form-success p { color: #555; font-size: 15px; }
+
+    /* BOTTOM BANNER */
+    .bottom-banner {
+      background: var(--orange);
+      padding: 28px 40px;
+      text-align: center;
+    }
+    .bottom-banner p {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(20px, 2.5vw, 32px);
+      font-weight: 900; text-transform: uppercase;
+      color: var(--white); letter-spacing: 0.05em;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--black); padding: 48px 40px;
+      text-align: center;
+    }
+    footer img { height: 36px; margin-bottom: 20px; }
+    footer nav ul {
+      justify-content: center; flex-wrap: wrap; gap: 24px; margin-bottom: 20px;
+    }
+    .footer-contact {
+      display: flex; justify-content: center; gap: 24px; flex-wrap: wrap;
+    }
+    .footer-contact a {
+      font-size: 14px; color: rgba(255,255,255,0.5);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .footer-contact a:hover { color: var(--orange); }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      nav ul { display: none; }
+      nav { padding: 0 20px; }
+      .hero { padding: 90px 20px 48px; }
+      .hero-inner { grid-template-columns: 1fr; gap: 32px; }
+      section { padding: 60px 20px; }
+      .pillars, .steps { grid-template-columns: 1fr; }
+      .tslide { grid-template-columns: 1fr; }
+      .enquire-grid { grid-template-columns: 1fr; gap: 40px; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <img src="FightForward_Lockup_Transparent_Dark.png" alt="Fight Forward" />
+  <ul>
+    <li><a href="#program">Program</a></li>
+    <li><a href="#how">How It Works</a></li>
+  </ul>
+  <a href="#enquire" class="nav-cta">Enquire Now</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <h1>A school fitness program kids <em>actually love</em></h1>
+      <p>Confidence, focus and fitness — built on boxing skills. Active, structured and genuinely fun. No contact, no sparring.</p>
+      <a href="#enquire" class="hero-cta">Enquire for Your School</a>
+    </div>
+    <div class="carousel" id="heroCarousel">
+      <div class="cslide active"><img src="carousel-1.jpg" alt="Fight Forward session" /></div>
+      <div class="cslide"><img src="carousel-2.jpg" alt="Kids boxing session" /></div>
+      <div class="cslide"><img src="carousel-3.jpg" alt="Boxing coach with kids" /></div>
+      <div class="cslide"><img src="carousel-4.jpg" alt="Kids boxing training" /></div>
+      <div class="cslide"><img src="carousel-5.jpg" alt="Kids boxing class" /></div>
+      <div class="cslide"><img src="carousel-6.jpg" alt="Children boxing academy" /></div>
+      <button class="carousel-btn prev" onclick="moveCarousel('heroCarousel',-1)">&#8592;</button>
+      <button class="carousel-btn next" onclick="moveCarousel('heroCarousel',1)">&#8594;</button>
+      <div class="carousel-dots" id="heroCarouselDots"></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAM -->
+<section id="program">
+  <div class="section-inner">
+    <div class="section-label">The Program</div>
+    <h2 class="section-title">What to expect from our <em>sessions</em></h2>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-header">
+          <div class="pillar-icon">💪</div>
+          <h3>Strong <em>Body</em></h3>
+        </div>
+        <p>Footwork, coordination, fitness and conditioning. Physical literacy that builds confidence in movement — skills that carry across every sport and every stage of life.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-header">
+          <div class="pillar-icon">🧠</div>
+          <h3>Strong <em>Mind</em></h3>
+        </div>
+        <p>Discipline, mental toughness and focus built into every drill. Kids arrive energised and carry that sharpness straight into the classroom.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-header">
+          <div class="pillar-icon">🎓</div>
+          <h3>Strong <em>Future</em></h3>
+        </div>
+        <p>Resilience, character and the belief that hard work pays off. The skills learned here go well beyond the session — they're built for life.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="section-inner">
+    <div class="section-label">What Parents Are Saying</div>
+    <h2 class="section-title">The program kids can't stop <em>talking about</em></h2>
+    <div class="tcarousel">
+      <div class="tslides" id="tslides">
+        <div class="tslide">
+          <div class="tcard">
+            <p>"My son used to drag his feet getting ready. Now he's up before his alarm asking if it's Fight Forward day. The confidence we've seen carry into school has been incredible."</p>
+            <div class="tcard-author"><div class="tcard-avatar">SK</div><div><div class="tcard-name">Sarah K.</div><div class="tcard-role">Parent · Year 3</div></div></div>
+          </div>
+          <div class="tcard">
+            <p>"I was nervous about boxing at first — no contact at all, just brilliant movement, structure and energy. My daughter loves it and her focus has genuinely improved."</p>
+            <div class="tcard-author"><div class="tcard-avatar">JM</div><div><div class="tcard-name">James M.</div><div class="tcard-role">Parent · Year 5</div></div></div>
+          </div>
+          <div class="tcard">
+            <p>"Best thing our school has added to the enrichment program in years. The kids talk about it constantly. Every minute counts and the kids absolutely rise to it."</p>
+            <div class="tcard-author"><div class="tcard-avatar">RT</div><div><div class="tcard-name">Rebecca T.</div><div class="tcard-role">Parent · Year 4</div></div></div>
+          </div>
+        </div>
+        <div class="tslide">
+          <div class="tcard">
+            <p>"The change in my daughter has been noticeable from week one. She's more focused, more confident and honestly just happier. I can't recommend this program enough."</p>
+            <div class="tcard-author"><div class="tcard-avatar">AL</div><div><div class="tcard-name">Amy L.</div><div class="tcard-role">Parent · Year 2</div></div></div>
+          </div>
+          <div class="tcard">
+            <p>"My kids were never into sport but Fight Forward hooked them immediately. There's something about the boxing format — they feel like they're learning a real skill, not just doing PE."</p>
+            <div class="tcard-author"><div class="tcard-avatar">DP</div><div><div class="tcard-name">David P.</div><div class="tcard-role">Parent · Year 4 &amp; 6</div></div></div>
+          </div>
+          <div class="tcard">
+            <p>"Leon has a genuine gift with kids. From the very first session they were hooked. It's rare to find something that combines fitness, discipline and fun this well."</p>
+            <div class="tcard-author"><div class="tcard-avatar">MC</div><div><div class="tcard-name">Michelle C.</div><div class="tcard-role">Parent · Year 3 &amp; 5</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tcarousel-nav">
+      <button class="tcarousel-btn" onclick="moveTCarousel(-1)">&#8592;</button>
+      <div class="tcarousel-dots" id="tcarouselDots"></div>
+      <button class="tcarousel-btn" onclick="moveTCarousel(1)">&#8594;</button>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="section-inner">
+    <div class="section-label">How It Works</div>
+    <h2 class="section-title">Three steps to <em>Fight Forward</em></h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>You Enquire</h3>
+        <p>Fill in the form or give us a call. Quick conversation to see if Fight Forward fits your enrichment program.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Free Trial Session</h3>
+        <p>We come to your school and run a <strong>completely free trial</strong>. No commitment, no cost.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Term Program Begins</h3>
+        <p>8-week terms, before school, 45 minutes. <strong>Parents enrol and pay directly</strong> — no cost to your school.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ENQUIRE -->
+<section id="enquire">
+  <div class="section-inner">
+    <div class="section-label">Get In Touch</div>
+    <div class="enquire-grid">
+      <div class="enquire-info">
+        <h2>Bring Fight Forward to <em>your school</em></h2>
+        <p>It doesn't matter if you're a teacher, parent or OSHC coordinator — fill in the form and we'll be in touch within one business day to talk through how Fight Forward could work for your school or OSHC program.</p>
+        <div class="contact-item"><div class="contact-icon">📞</div><a href="tel:0481981664">0481 981 664</a></div>
+        <div class="contact-item"><div class="contact-icon">📸</div><a href="https://www.instagram.com/fightforward.kids" target="_blank">@fightforward.kids</a></div>
+        <div class="contact-item"><div class="contact-icon">✉️</div><a href="mailto:hello@fightforward.com.au">hello@fightforward.com.au</a></div>
+      </div>
+      <div class="enquire-form">
+        <h3>Enquire for your school</h3>
+        <form name="enquiry" method="POST" data-netlify="true" id="enquiryForm">
+          <input type="hidden" name="form-name" value="enquiry" />
+          <p class="honey"><label>Don't fill this out: <input name="bot-field" /></label></p>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Your name</label>
+              <input type="text" id="name" name="name" required placeholder="Your name" />
+            </div>
+            <div class="form-group">
+              <label for="role">Your role</label>
+              <select id="role" name="role" required>
+                <option value="" disabled selected>Select role</option>
+                <option>OSHC Coordinator</option>
+                <option>Sports Coordinator</option>
+                <option>Principal</option>
+                <option>Parent</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="school">School name</label>
+            <input type="text" id="school" name="school" required placeholder="School name" />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required placeholder="your@email.com" />
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone</label>
+              <input type="tel" id="phone" name="phone" placeholder="0400 000 000" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="message">Message (optional)</label>
+            <textarea id="message" name="message" placeholder="Anything you'd like us to know..."></textarea>
+          </div>
+          <button type="submit" class="form-submit">Send Enquiry</button>
+          <p class="form-note">We'll respond within one business day. No commitment to enquire.</p>
+        </form>
+        <div class="form-success" id="formSuccess">
+          <div class="check">✅</div>
+          <h4>Enquiry Sent!</h4>
+          <p>Thanks — we'll be in touch within one business day.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOTTOM BANNER -->
+<div class="bottom-banner">
+  <p>Built for Today. Prepared for Tomorrow. &mdash; Fight Forward.</p>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <img src="FightForward_Lockup_Transparent_Dark.png" alt="Fight Forward" />
+  <nav><ul>
+    <li><a href="#program">Program</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#enquire">Enquire</a></li>
+    <li><a href="tel:0481981664" style="color:var(--orange)">0481 981 664</a></li>
+  </ul></nav>
+  <div class="footer-contact">
+    <a href="tel:0481981664">0481 981 664</a>
+    <a href="mailto:hello@fightforward.com.au">hello@fightforward.com.au</a>
+    <a href="https://www.instagram.com/fightforward.kids" target="_blank">@fightforward.kids</a>
+  </div>
+</footer>
+
+<script>
+  const carousels = {};
+  function initCarousel(id) {
+    const el = document.getElementById(id);
+    const slides = el.querySelectorAll('.cslide');
+    const dotsEl = document.getElementById(id + 'Dots');
+    carousels[id] = { idx: 0, total: slides.length };
+    slides.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'cdot' + (i === 0 ? ' active' : '');
+      d.onclick = () => goCarousel(id, i);
+      dotsEl.appendChild(d);
+    });
+    setInterval(() => moveCarousel(id, 1), 4000);
+  }
+  function moveCarousel(id, dir) {
+    const c = carousels[id];
+    goCarousel(id, (c.idx + dir + c.total) % c.total);
+  }
+  function goCarousel(id, idx) {
+    const el = document.getElementById(id);
+    const slides = el.querySelectorAll('.cslide');
+    const dots = document.getElementById(id + 'Dots').querySelectorAll('.cdot');
+    slides[carousels[id].idx].classList.remove('active');
+    dots[carousels[id].idx].classList.remove('active');
+    carousels[id].idx = idx;
+    slides[idx].classList.add('active');
+    dots[idx].classList.add('active');
+  }
+  initCarousel('heroCarousel');
+
+  let tIdx = 0;
+  const tSlidesEl = document.getElementById('tslides');
+  const tTotal = tSlidesEl.querySelectorAll('.tslide').length;
+  const tDotsEl = document.getElementById('tcarouselDots');
+  for (let i = 0; i < tTotal; i++) {
+    const d = document.createElement('div');
+    d.className = 'tdot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTCarousel(i);
+    tDotsEl.appendChild(d);
+  }
+  function moveTCarousel(dir) { goTCarousel((tIdx + dir + tTotal) % tTotal); }
+  function goTCarousel(idx) {
+    tSlidesEl.querySelectorAll('.tdot').forEach((d, i) => d.classList.toggle('active', i === idx));
+    tIdx = idx;
+    tSlidesEl.style.transform = `translateX(-${tIdx * 100}%)`;
+  }
+
+  const form = document.getElementById('enquiryForm');
+  const success = document.getElementById('formSuccess');
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      try {
+        await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(data).toString() });
+        form.style.display = 'none';
+        success.style.display = 'block';
+      } catch {
+        alert('Something went wrong. Please call us on 0481 981 664.');
+      }
+    });
+  }
+</script>
+</body>
+</html>
