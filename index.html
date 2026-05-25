@@ -32,13 +32,17 @@
     /* NAV */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 40px; height: 70px;
+      display: grid; grid-template-columns: auto 1fr auto;
+      align-items: center;
+      padding: 0 40px; height: 80px;
       background: rgba(17,17,17,0.97);
       backdrop-filter: blur(8px);
     }
-    nav img { height: 56px; filter: brightness(0) invert(1); }
-    nav ul { list-style: none; display: flex; gap: 32px; }
+    nav img { height: 64px; }
+    nav ul {
+      list-style: none; display: flex; gap: 32px;
+      justify-content: center;
+    }
     nav ul a {
       color: rgba(255,255,255,0.8); text-decoration: none;
       font-size: 14px; font-weight: 500; letter-spacing: 0.04em;
@@ -47,19 +51,20 @@
     nav ul a:hover { color: var(--orange); }
     nav .nav-cta {
       background: var(--orange); color: white;
-      padding: 10px 22px; border-radius: 4px;
-      font-size: 13px; font-weight: 700; letter-spacing: 0.05em;
+      padding: 12px 28px; border-radius: 4px;
+      font-size: 14px; font-weight: 700; letter-spacing: 0.05em;
       text-transform: uppercase; text-decoration: none;
-      transition: background 0.2s;
+      transition: background 0.2s, transform 0.2s;
+      white-space: nowrap;
     }
-    nav .nav-cta:hover { background: #e05000; }
+    nav .nav-cta:hover { background: #e05000; transform: translateY(-1px); }
 
     /* HERO */
     .hero {
       min-height: 100vh;
       background: var(--black);
       display: flex; align-items: center;
-      padding: 100px 40px 60px;
+      padding: 110px 40px 60px;
       position: relative; overflow: hidden;
     }
     .hero::before {
@@ -335,9 +340,10 @@
 
     /* MOBILE */
     @media (max-width: 768px) {
+      nav { grid-template-columns: 1fr auto; padding: 0 20px; height: 70px; }
       nav ul { display: none; }
-      nav { padding: 0 20px; }
-      .hero { padding: 90px 20px 48px; }
+      nav img { height: 48px; }
+      .hero { padding: 100px 20px 48px; }
       .hero-inner { grid-template-columns: 1fr; gap: 32px; }
       section { padding: 60px 20px; }
       .pillars, .steps { grid-template-columns: 1fr; }
@@ -356,7 +362,7 @@
     <li><a href="#program">Program</a></li>
     <li><a href="#how">How It Works</a></li>
   </ul>
-  <a href="#enquire" class="nav-cta">Enquire Now</a>
+  <a href="#enquire" class="nav-cta">Enquire</a>
 </nav>
 
 <!-- HERO -->
